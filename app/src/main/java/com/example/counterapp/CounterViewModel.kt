@@ -4,17 +4,19 @@ import androidx.lifecycle.ViewModel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 
-class CounterViewModel : ViewModel() {
-    private var _count: MutableState<Int> = mutableStateOf(0)
+class CounterViewModel() : ViewModel() {
+    private val _repository: CounterRepository = CounterRepository()
+    private var _count: MutableState<Int> = mutableStateOf(_repository.getCounter().count)
     var count: MutableState<Int> = _count
 
     fun increment() {
-        println(_count)
-        _count.value += 1
-        println(_count)
+        _repository.incrementCounter()
+        _count.value = _repository.getCounter().count
     }
 
     fun decrement() {
-        _count.value -= 1
+        _repository.decrementCounter()
+        _count.value = _repository.getCounter().count
+
     }
 }
